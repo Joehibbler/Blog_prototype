@@ -1,9 +1,9 @@
-from flask import Flask, flash, render_template, abort, session, request, redirect, url_for
+from flask import Flask, flash, render_template
 
 
-# create flask Instante
+# create flask Instant
 app = Flask(__name__)
-
+app.debug = True
 
 
 @app.route('/') 
@@ -13,9 +13,8 @@ def index():
 
 
 @app.route('/login_form') 
-
-#def (login_form):
-   #  return render_template("login_form.html")
+def login_form():
+     return render_template("login_form.html")
 
 @app.errorhandler(404)
 def page_notfound(e):
