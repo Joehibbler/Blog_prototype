@@ -1,9 +1,22 @@
+{% extends "base.html" %}
 
-{% extends  'base.html'%}
+{% from "_formhelpers.html" import render_field %}
 
+{% block content %}
 
-{% block content%}
-
-  <h1>login page test2</h1>
-
+<html>
+<head>
+<title>WTForms</title>
+</head>
+<body>
+  <form method="POST" action="/">
+     <dl>
+      {{ form.csrf_token }}
+      {{ render_field(form.username) }}
+      {{ render_field(form.password) }}
+      <input type="submit" value="Login">
+      </dl>
+  </form>
+</body>
+</html>
 {% endblock %}
