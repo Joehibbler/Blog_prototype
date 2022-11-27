@@ -1,23 +1,28 @@
-from flask import Flask, flash, render_template, abort, session, request, url_for,flash
-from flask_wtf import Form
+from flask import Flask, flash, render_template, abort, session, request, url_for, flash, redirect
+from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField
-from wtforms.validators import InputRequired,  DataRequired
+from wtforms.validators import  DataRequired
 
 # create flask Instant
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "ZoraZora1!"
 
  # Create form-Class and secret-key
-class LoginForm(Form):
-      username = StringField('username', validators=[InputRequired()])
-      password = PasswordField('password', validators=[InputRequired()])
+class LoginForm(FlaskForm):
+      name = StringField('Username', validators=[DataRequired()])
+      submit = SubmitField("Submit")
+      #password = PasswordField('password', validators=[DataRequired()])
 
 @app.route('/name', methods=['GET','POST']) 
 def name():
+      name = None 
       form = LoginForm()
-      if request.method=='POST':
-             return 'Form Successfully Submitted!'
-      return render_template('name.html', form=form)
+      if form.validate_on_submit():
+         name = form.name.data
+         form.name.data = ''
+      return render_template('name.html',
+         name = name,
+         form=form)
  
 
 
@@ -28,10 +33,16 @@ def index():
 
 @app.route('/login_form', methods=['GET','POST']) 
 def login_form():
+      name = None 
       form = LoginForm()
-      if  request.method=='POST':
-             return render_template("home_page.html")
-      return render_template("login_form.html", form=form)
+      if form.validate_on_submit():
+         name = form.name.data
+         form.name.data = ''
+         flash("Form Submitted")
+      return render_template('login_form.html',
+         name = name,
+         form=form)
+ 
  
 @app.route('/staff_dashboard') 
 def staff_dashboard():
